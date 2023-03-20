@@ -51,7 +51,11 @@ const Home = ({ correoUsuario }) => {
       <h4>Hola, sesion iniciada</h4>
       <Button onClick={() => signOut(auth)}>Cerrar Sesion</Button>
       <hr />
-      <AgregarTarea />
+      <AgregarTarea
+        arrayTareas={arrayTareas}
+        setArrayTarea={setArrayTarea}
+        correoUsuario={correoUsuario}
+      />
       {arrayTareas ? (
         <ListadoTarea
           arrayTareas={arrayTareas}
