@@ -21,7 +21,7 @@ const Logueo = () => {
 
       if(estaRegistrandose){
         //si se registra
-        const usuario = await createUserWithEmailAndPassword(
+        await createUserWithEmailAndPassword(
           auth,
           correo,
           contra
