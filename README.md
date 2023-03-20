@@ -11,7 +11,7 @@ CRUD implementando Firestore y una autenticacion y almacena con FireStorage
 Clone the project
 
 ```bash
-  git clone https://github.com/sebasaravi/webpage.git
+  git clone https://github.com/Abdias-Urena/React-CRUD-Firestore.git
 ```
 
 # Getting Started with Create React App
