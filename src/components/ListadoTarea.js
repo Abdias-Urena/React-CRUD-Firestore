@@ -26,10 +26,13 @@ const ListadoTarea = ({ arrayTareas, correoUsuario, setArrayTarea }) => {
               <Row>
                 <Col>{objectoTarea.descripcion}</Col>
                 <Col>
-                  <Button>Ver archivo</Button>
+                  <a href={objectoTarea.url}>
+                    <Button variant="secondary">Ver archivo</Button>
+                  </a>
                 </Col>
                 <Col>
                   <Button
+                    variant="danger"
                     onClick={() => {
                       eliminarTarea(objectoTarea.id);
                     }}

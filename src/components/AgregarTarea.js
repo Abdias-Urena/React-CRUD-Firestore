@@ -1,10 +1,14 @@
 import React from "react";
 import { Container, Form, Col, Row, Button } from "react-bootstrap";
+
 import firebaseApp from "../credenciales";
 import { getFirestore, updateDoc, doc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 const firestore = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 const AgregarTarea = ({ arrayTareas, correoUsuario, setArrayTarea }) => {
+  let urlDescarga;
   async function annadirTarea(e) {
     e.preventDefault();
     const descripcion = e.target.FormDescripcion.value;
@@ -14,7 +18,7 @@ const AgregarTarea = ({ arrayTareas, correoUsuario, setArrayTarea }) => {
       {
         id: +new Date(),
         descripcion: descripcion,
-        url: "https://picsum.photos/420",
+        url: urlDescarga,
       },
     ];
     // actualizar base de datos
@@ -25,10 +29,19 @@ const AgregarTarea = ({ arrayTareas, correoUsuario, setArrayTarea }) => {
     // limpiar form
     e.target.FormDescripcion.value = "";
   }
+  async function fileHandler(e) {
+    //detectar el archivo
+    const archivoLocal = e.target.files[0];
+    //cargarlo a firebase storage
+    const archivoRef = ref(storage, `documentos/${archivoLocal.name}`);
+    await uploadBytes(archivoRef, archivoLocal);
+    //obtener url de descarga
+    urlDescarga = await getDownloadURL(archivoRef);
+  }
   return (
     <Container>
       <Form onSubmit={annadirTarea}>
-        <Row>
+        <Row className="mb-5">
           <Col>
             <Form.Control
               type="text"
@@ -37,13 +50,18 @@ const AgregarTarea = ({ arrayTareas, correoUsuario, setArrayTarea }) => {
             />
           </Col>
           <Col>
-            <Form.Control type="file" placeholder="Annade archivo" />
+            <Form.Control
+              type="file"
+              placeholder="Annade archivo"
+              onChange={fileHandler}
+            />
           </Col>
           <Col>
             <Button type="submit">Agregar Tarea</Button>
           </Col>
         </Row>
       </Form>
+      <hr />
     </Container>
   );
 };
